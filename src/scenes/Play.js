@@ -83,20 +83,8 @@ class Play extends Phaser.Scene {
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
         //Track New Score 
-        let highConfig = {
-            fontFamily: 'Courier',
-            fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
-            padding: {
-                top: 5,
-                bottom: 5,
-            },
-            fixedWidth: 100
-        }
         this.highScore = localStorage.getItem("Points");
-        this.HighScoreLeft = this.add.text(200, borderUISize + borderPadding*2, this.highScore, scoreConfig);
+        this.HighScoreLeft = this.add.text(150, borderUISize + borderPadding*2, this.highScore, scoreConfig);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -110,7 +98,7 @@ class Play extends Phaser.Scene {
         }, null, this);
 
         //speed increase after 30 sec 
-        this.time.delayedCall(300000, () => {
+        this.time.delayedCall(30000, () => {
             this.regularShipSpeed *= 2;
             this.fastShipSpeed *= 2;
         }, null, this);
@@ -130,8 +118,24 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
         };
         // Add FIRE text
-        this.fireText = this.add.text(420, borderUISize + borderPadding * 2, 'FIRE', fireTextConfig);
+        this.fireText = this.add.text(270, borderUISize + borderPadding * 2, 'FIRE', fireTextConfig);
 
+        //time left
+        this.GameTime = game.settings.gameTimer;
+        this.timeLeft = this.add.text(400, borderUISize + borderPadding * 2, "Timer: " + this.formatTime(this.GameTime), scoreConfig); 
+        this.timedEvent = this.time.addEvent
+        (
+            {
+                delay: 1000, callback: () =>
+                {
+                    this.GameTime -= 1000; 
+                    this.timeLeft.text = "Timer: " +
+                        this.formatTime(this.GameTime);
+                },
+                scope: this,
+                loop: true
+            }
+        );
     }
 
     update() {
@@ -210,5 +214,13 @@ class Play extends Phaser.Scene {
         }
         this.HighScoreLeft.text = this.highScore;
         
+      }
+      formatTime(ms)
+      {
+          let s = ms/1000;
+          let min = Math.floor(s/60);
+          let seconds = s%60;
+          seconds = seconds.toString().padStart(2, "0");
+          return `${min}:${seconds}`;
       }
 }
