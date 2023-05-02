@@ -2,6 +2,8 @@
 //mod added******************************** */
 // Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (15)
 // Implement mouse control for player movement and mouse click to fire (15)
+// Allow the player to control the Rocket after it's fired (5)
+// Add your own (copyright-free) background music to the Play scene (please be mindful of the volume) (5)
 
 let config = {
     type: Phaser.CANVAS,
