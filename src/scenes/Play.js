@@ -46,6 +46,12 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
+        //new mouse 
+
+        mouse = this.input.on('pointermove', function (pointer) {
+            this.p1Rocket.x = Phaser.Math.Clamp(pointer.x, borderUISize + borderPadding, game.config.width - borderUISize - borderPadding);
+        }, this);
+
         // animation config
         this.anims.create({
             key: 'explode',
