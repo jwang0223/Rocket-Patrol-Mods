@@ -82,6 +82,22 @@ class Play extends Phaser.Scene {
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
+        //Track New Score 
+        let highConfig = {
+            fontFamily: 'Courier',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.highScore = localStorage.getItem("Points");
+        this.HighScoreLeft = this.add.text(200, borderUISize + borderPadding*2, this.highScore, scoreConfig);
+
         // GAME OVER flag
         this.gameOver = false;
 
@@ -169,5 +185,13 @@ class Play extends Phaser.Scene {
         this.scoreLeft.text = this.p1Score; 
         
         this.sound.play('sfx_explosion');
+
+        //high score
+        if (this.p1Score > this.highScore) {
+            this.highScore = this.p1Score;
+            localStorage.setItem("Points", this.highScore);
+        }
+        this.HighScoreLeft.text = this.highScore;
+        
       }
 }
