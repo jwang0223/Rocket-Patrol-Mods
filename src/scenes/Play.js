@@ -1,3 +1,5 @@
+import SmallSpaceship from '../prefabs/SmallSpaceship.js';
+
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
@@ -10,6 +12,9 @@ class Play extends Phaser.Scene {
         this.load.image('starfield', './assets/starfield.png');
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+
+        // load fastShip
+        this.load.image('smallSpaceship','./assets/fastShip.png');
     }
 
     create() {
@@ -31,6 +36,10 @@ class Play extends Phaser.Scene {
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0,0);
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+
+        // new spaceship 
+        this.ship04 = new SmallSpaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'smallSpaceship', 0, 30).setOrigin(0, 0);
+        this.ship05 = new SmallSpaceship(this, game.config.width + borderUISize * 6, game.config.height - borderUISize * 6, 'smallSpaceship', 0, 30).setOrigin(0, 0);
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -111,6 +120,10 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+        //new ship
+        this.ship04.update();
+        this.ship05.update();
+
     }
 
     checkCollision(rocket, ship) {
@@ -123,6 +136,15 @@ class Play extends Phaser.Scene {
         } else {
             return false;
         }
+        if (this.checkCollision(this.rocket, this.ship04)) {
+            this.rocket.reset();
+            this.shipExplode(this.ship04);
+        }
+        if (this.checkCollision(this.rocket, this.ship05)) {
+            this.rocket.reset();
+            this.shipExplode(this.ship05);
+        }
+        
     }
 
     shipExplode(ship) {
