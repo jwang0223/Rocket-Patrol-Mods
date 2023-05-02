@@ -1,3 +1,8 @@
+//***************************************** */
+//mod added******************************** */
+// Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (15)
+
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,

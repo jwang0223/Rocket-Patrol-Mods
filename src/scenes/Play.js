@@ -1,5 +1,3 @@
-import SmallSpaceship from '../prefabs/SmallSpaceship.js';
-
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
@@ -38,8 +36,9 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
 
         // new spaceship 
-        this.ship04 = new SmallSpaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'smallSpaceship', 0, 30).setOrigin(0, 0);
-        this.ship05 = new SmallSpaceship(this, game.config.width + borderUISize * 6, game.config.height - borderUISize * 6, 'smallSpaceship', 0, 30).setOrigin(0, 0);
+        this.ship04 = new Spaceship(this, game.config.width + borderUISize * 6, game.config.height - borderUISize * 6, 'smallSpaceship', 0, 30).setOrigin(0, 0);
+        this.fastShipSpeed = game.settings.spaceshipSpeed + 2;
+        this.regularShipSpeed = game.settings.spaceshipSpeed;
 
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -93,20 +92,21 @@ class Play extends Phaser.Scene {
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
-
+    
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
             this.scene.start("menuScene");
         }
-
+    
         this.starfield.tilePositionX -= 4;  // update tile sprite
-
+    
         if(!this.gameOver) {
             this.p1Rocket.update();             // update p1
-             this.ship01.update();               // update spaceship (x3)
-            this.ship02.update();
-            this.ship03.update();
+            this.ship01.update(this.regularShipSpeed);               // update spaceship (x3)
+            this.ship02.update(this.regularShipSpeed);
+            this.ship03.update(this.regularShipSpeed);
+            this.ship04.update(this.fastShipSpeed);
         }
-
+    
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
@@ -120,10 +120,10 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
-        //new ship
-        this.ship04.update();
-        this.ship05.update();
-
+        if (this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
+        }
     }
 
     checkCollision(rocket, ship) {
@@ -136,16 +136,8 @@ class Play extends Phaser.Scene {
         } else {
             return false;
         }
-        if (this.checkCollision(this.rocket, this.ship04)) {
-            this.rocket.reset();
-            this.shipExplode(this.ship04);
-        }
-        if (this.checkCollision(this.rocket, this.ship05)) {
-            this.rocket.reset();
-            this.shipExplode(this.ship05);
-        }
-        
     }
+    
 
     shipExplode(ship) {
         // temporarily hide ship
