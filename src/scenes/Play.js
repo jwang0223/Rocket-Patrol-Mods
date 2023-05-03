@@ -1,3 +1,4 @@
+// real code starts
 class Play extends Phaser.Scene {
     constructor() {
         super("playScene");
@@ -90,12 +91,13 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
 
         // 60-second play clock
+        this.timeToAdd = 5000;
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+        this.clock = this.time.addEvent({delay: game.settings.gameTimer, callback: () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← to Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
-        }, null, this);
+        }, scope: this, loop: true});
 
         //speed increase after 30 sec 
         this.time.delayedCall(30000, () => {
@@ -204,7 +206,10 @@ class Play extends Phaser.Scene {
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score; 
-        
+        //add time
+        this.GameTime += this.timeToAdd;
+        this.clock.delay += this.timeToAdd;
+    
         this.sound.play('sfx_explosion');
 
         //high score
