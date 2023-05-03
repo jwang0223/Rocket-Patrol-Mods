@@ -1,5 +1,8 @@
 //***************************************** */
-//mod added******************************** */
+// Jackie Wang
+// Rocket Patrol Craziness
+// Took 24 hours 
+// Mods added****************************** */
 // Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (15)
 // Implement mouse control for player movement and mouse click to fire (15)
 // Allow the player to control the Rocket after it's fired (5)
@@ -11,7 +14,8 @@
 // Display the time remaining (in seconds) on the screen (10)
 // Implement a new timing/scoring mechanism that adds time to the clock for successful hits (15)
 // Create a new scrolling tile sprite for the background (5)
-
+// Create 4 new explosion sound effects and randomize which one plays on impact (10)
+// Source Use 
     //  https://phaser.discourse.group/t/countdown-timer/2471/3
 let config = {
     type: Phaser.CANVAS,

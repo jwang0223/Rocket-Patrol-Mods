@@ -10,6 +10,11 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('starfield', './assets/starfield.png');
         this.sound.play('background_music');
+        this.load.audio('explosion1', './assets/e1.mp3');
+        this.load.audio('explosion2', './assets/e2.mp3');
+        this.load.audio('explosion3', './assets/e3.mp3');
+        this.load.audio('explosion4', './assets/e4.mp3');
+        
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
 
@@ -191,7 +196,12 @@ class Play extends Phaser.Scene {
         }
     }
     
-
+    playRandomExplosionSound() {
+        let randomNumber = Math.floor(Math.random() * 4) + 1;
+        let explosionSoundKey = 'explosion' + randomNumber;
+        this.sound.play(explosionSoundKey);
+    }
+    
     shipExplode(ship) {
         // temporarily hide ship
         ship.alpha = 0;                         
@@ -210,8 +220,8 @@ class Play extends Phaser.Scene {
         this.GameTime += this.timeToAdd;
         this.clock.delay += this.timeToAdd;
     
-        this.sound.play('sfx_explosion');
-
+        // this.sound.play('sfx_explosion');
+        this.playRandomExplosionSound();
         //high score
         if (this.p1Score > this.highScore) {
             this.highScore = this.p1Score;
