@@ -11,6 +11,8 @@
 // Display the time remaining (in seconds) on the screen (10)
 // Implement a new timing/scoring mechanism that adds time to the clock for successful hits (15)
 // Create a new scrolling tile sprite for the background (5)
+
+    //  https://phaser.discourse.group/t/countdown-timer/2471/3
 let config = {
     type: Phaser.CANVAS,
     width: 640,
